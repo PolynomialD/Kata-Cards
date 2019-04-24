@@ -27,7 +27,7 @@ const menuTemplate = [
       ]
     }
   ]
-    // Mac check
+  
   if (process.platform === 'darwin') {
     menuTemplate.unshift({label: ''})
   }
