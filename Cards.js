@@ -14,6 +14,10 @@ const createDeck = (amount) => {
     return deck
 }
 
+const randomCard = (deck) => {
+    return deck.splice(randomNumber(deck.length),1)
+}
+
 const randomNumber = (max) => {
     return Math.floor(Math.random() * Math.floor(max))
 }
@@ -28,8 +32,7 @@ const cutDeck = (cuts, deck) => {
 
 const shuffleDeck = (deck) => {
     for(let i=0; i<500; i++) {
-        let randomCard = deck.splice(randomNumber(deck.length),1)
-        deck = randomCard.concat(deck)
+        deck = randomCard(deck).concat(deck)
     }
     return deck
 }
@@ -37,14 +40,12 @@ const shuffleDeck = (deck) => {
 const dealCards = (players, cards, deck) => {
     let playerArray = []
     for(let i=0; i<players; i++) {playerArray.push(new Array())}
-    console.log(playerArray)
     for(let i=0; i<players; i++) {
         for(let j=0; j<cards; j++) {
-            let randomCard = deck.splice(randomNumber(deck.length),1)
-            playerArray[i].push(randomCard)
+            playerArray[i].push(randomCard(deck))
         }
     }
-/*     console.log(randomCard)
- */    console.log(playerArray)
+    console.log(playerArray)
 }
+
 dealCards(5,2,createDeck(1))

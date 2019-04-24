@@ -1,9 +1,9 @@
 {
   "name": "kata-cards",
   "version": "1.0.0",
-  "main": "Cards.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node .",
+    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
