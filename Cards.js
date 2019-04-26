@@ -1,4 +1,3 @@
-
 const createDeck = (amount) => {               
     let deck = []
     for(let j=1; j<=amount; j++) {     
@@ -11,7 +10,6 @@ const createDeck = (amount) => {
             deck.push(card+' Of Clubs', card+' Of Diamonds', card+' Of Hearts', card+' Of Spades')
         }
     }
-    console.log('deck', deck)
     return deck
 }
 
@@ -46,15 +44,14 @@ const dealCards = (players, cards, deck) => {
             playerArray[i].push(randomCard(deck))
         }
     }
-    console.log('playerArray', playerArray)
     return playerArray
 }
 
 const deckOne = createDeck(1)
-console.log('Deck', deckOne)
+console.log('Deck', deckOne.length, deckOne)
 
-shuffleDeck(deckOne)
-console.log('shuffled:',shuffleDeck(deckOne))
+ const shuffle = shuffleDeck(deckOne)
+console.log('Shuffled:', deckOne.length, shuffle)
 
 dealCards(6,2, deckOne)
-console.log('playerarray', dealCards(6,2, deckOne), 'dealt', deckOne)
+console.log('Playerarray', dealCards(6,2, deckOne), 'Remaining deck', deckOne.length, deckOne)
