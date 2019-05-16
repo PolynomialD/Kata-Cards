@@ -1,57 +1,80 @@
-const createDeck = (amount) => {               
-    let deck = []
-    for(let j=1; j<=amount; j++) {     
-        for(let i=2; i<15; i++) {
-            let card = i
-            if(i===11){card = 'Jack'}
-            if(i===12){card = 'Queen'}
-            if(i===13){card = 'King'}
-            if(i===14){card = 'Ace'}
-            deck.push(card+' Of Clubs', card+' Of Diamonds', card+' Of Hearts', card+' Of Spades')
+
+
+
+createDeck = () => {
+    const deck = []
+    const suits = ['♠', '♣', '♥', '♦']
+    const values =[2,3,4,5,6,7,8,9,10,'J','Q','K','A']
+        for (suit of suits) {
+            for (value of values) {
+                deck.push(`${value}` + `${suit}`)
+            }
         }
-    }
     return deck
 }
 
-const randomCard = (deck) => {
-    return deck.splice(randomNumber(deck.length),1)
-}
-
-const randomNumber = (max) => {
+randomNumber = (max) => {
     return Math.floor(Math.random() * Math.floor(max))
 }
-
-const cutDeck = (cuts, deck) => {    //cuts not working
-    for(let i=1; i<=cuts; i++) {
-        let cut = deck.splice(randomNumber(deck.length))
-        deck = cut.concat(deck)
-    }
-    return deck
+randomCard = (deck) => {
+    return deck[randomNumber(deck.length)-1]
 }
 
-const shuffleDeck = (deck) => {
-    for(let i=0; i<500; i++) {
-        deck = randomCard(deck).concat(deck)
-    }
-    return deck
+removeRandomCard = (deck) => {
+    return deck.splice([randomNumber(deck.length)-1],1).toString()
 }
 
-const dealCards = (players, cards, deck) => {
+removeTopCard = (deck) => {
+    return deck.pop().toString()
+}
+
+cutDeck = (deck) => {    
+    return deck.splice(randomNumber(deck.length)).concat(deck)
+}
+
+shuffleDeck = (deck = createDeck(1), i = 1, limit = 20) => {
+    const clone = deck.slice(0)
+
+    const newDeck = new Array(clone.length).fill(0).map(() => {
+        return clone.splice(randomNumber(clone.length),1)[0]
+    })  
+    return (i < limit) ? shuffleDeck(newDeck, ++i) : newDeck
+}
+
+let counter = 1
+class Player {
+    constructor (name, chips) { 
+            this.name = name,
+            this.position = counter,
+            this.chips = chips,
+            this.cards = [],   
+            counter++
+        
+    }
+}
+
+createPlayerArray = (names, chips) => {
     let playerArray = []
-    for(let i=0; i<players; i++) {playerArray.push([])}
-    for(let i=0; i<players; i++) {
-        for(let j=0; j<cards; j++) {
-            playerArray[i].push(randomCard(deck))
-        }
+    for(name in names) {
+        let newPlayer = new Player(names[name], chips)
+        playerArray.push(newPlayer)
     }
     return playerArray
 }
 
-const deckOne = createDeck(1)
-console.log('Deck', deckOne.length, deckOne)
+dealCards = (cards, deck, playerArray) => {
+    for (cards; cards>0; cards--) {
+        for (player in playerArray) {               
+            playerArray[player].cards.push(removeTopCard(deck))         
+    }
+}
+}   
+const names = ['Steve', 'Bob', 'Marley']
+const players = createPlayerArray(names, 5000)
 
- const shuffle = shuffleDeck(deckOne)
-console.log('Shuffled:', deckOne.length, shuffle)
+const deck = shuffleDeck(createDeck())
+console.log(deck, deck.length)
 
-dealCards(6,2, deckOne)
-console.log('Playerarray', dealCards(6,2, deckOne), 'Remaining deck', deckOne.length, deckOne)
+dealCards(8, deck, players)
+console.log(players)
+console.log (deck.length)
